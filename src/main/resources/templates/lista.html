@@ -44,7 +44,7 @@
                     <td th:text="${produto.categoria}">Categoria</td>
                     <td th:text="${produto.estoque}">Estoque</td>
                     <td>
-                        <form th:action="@{/remover(nome=${produto.nome})}" method="post">
+                        <form th:action="@{/remover(id=${produto.id})}" method="post">
                             <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
                     </td>

@@ -49,8 +49,8 @@ public class ProdutoController {
     }
 
     @PostMapping("/remover")
-    public String removerItem(@RequestParam("nome") String nome) {
-        produtoService.removerPorNome(nome);
+    public String removerItem(@RequestParam("id") Long id) {
+        produtoService.remover(id);
         return "redirect:/lista";
     }
 }

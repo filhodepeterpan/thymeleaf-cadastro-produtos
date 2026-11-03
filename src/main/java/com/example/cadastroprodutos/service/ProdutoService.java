@@ -1,32 +1,33 @@
 package com.example.cadastroprodutos.service;
 
 import com.example.cadastroprodutos.model.Produto;
+import com.example.cadastroprodutos.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProdutoService {
 
-    private final List<Produto> produtos = new ArrayList<>();
+    private final ProdutoRepository repository;
 
-    public void adicionar(Produto produto) {
-        produtos.add(produto);
+    public ProdutoService(ProdutoRepository repository) {
+        this.repository = repository;
     }
 
-    public void removerPorNome(String nome) {
-        produtos.removeIf(p -> p.getNome().equalsIgnoreCase(nome));
+    public void adicionar(Produto produto) {
+        repository.save(produto);
+    }
+
+    public void remover(Long id) {
+        repository.deleteById(id);
     }
 
     public List<Produto> listar(String busca) {
         if (busca == null || busca.isBlank()) {
-            return new ArrayList<>(produtos);
+            return repository.findAll();
         }
-        String termo = busca.trim().toLowerCase();
-        return produtos.stream()
-                .filter(p -> p.getNome().toLowerCase().contains(termo)
-                        || p.getCategoria().toLowerCase().contains(termo))
-                .toList();
+        String termo = busca.trim();
+        return repository.findByNomeContainingIgnoreCaseOrCategoriaContainingIgnoreCase(termo, termo);
     }
 }
